@@ -1,0 +1,76 @@
+//File: vShader.txt
+//Desc: Simple vertex shader that change color depending on the position
+
+//
+//Defines
+//
+#define PROC_DEF	0
+#define PROC_RAW	1
+#define PROC_WND	2
+
+//
+//Globals
+//
+
+float2 ViewVect = {0.0f, 0.0f};		//Camera position
+float ViewDist = 1.0f;				//Camera distantion
+
+int	WinWidth = 800;					//Window size
+int WinHeight = 600;				//
+uint VertexProcces = PROC_DEF;		//Draw on screen coordonates
+
+float2 ScaleVect = {1.0f, 1.0f};		//Sprite size multiplier
+float2 SpriteCenter = {0.0f, 0.0f};		//Sprite center(need for scaling)
+
+//We get just position
+struct VS_INPUT{
+	vector position : POSITION;
+	float2 texCoord : TEXCOORD0;
+};
+
+//Return position and color
+struct VS_OUTPUT{
+	vector position : POSITION;
+	float2 texCoord : TEXCOORD0;
+};
+
+//
+//Main
+//
+
+VS_OUTPUT Main(VS_INPUT input){
+	// zero out all members of the output instance.
+	VS_OUTPUT output = (VS_OUTPUT)0;
+	
+
+	output.position = input.position;
+
+	switch(VertexProcces){
+	case PROC_DEF:
+		//Set the output position using camera position and distance
+		output.position.xy -= ViewVect;
+		output.position.xy /= ViewDist;
+
+		break;
+	case PROC_WND:
+
+		if((ScaleVect.x != 1.0f) || (ScaleVect.y != 1.0f)){
+			output.position.xy -= SpriteCenter;
+			output.position.xy *= ScaleVect - ((ScaleVect.xy - float2(1.0f, 1.0f)) / 2.0f);
+			output.position.xy += SpriteCenter;
+		}
+
+		output.position.x = output.position.x * 2 / WinWidth - 1.0f;
+		output.position.y = output.position.y * 2 / WinHeight - 1.0f;
+
+
+		break;
+	case PROC_RAW:
+		break;
+	}
+
+	//Set texture coordinates
+	output.texCoord = input.texCoord;
+
+	return output;
+}

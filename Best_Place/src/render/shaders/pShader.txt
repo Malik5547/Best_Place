@@ -1,0 +1,36 @@
+//
+//File: pShader.txt
+//
+//Desc: This simple pixel shader render sprites with textures
+//
+
+//
+//Globals
+//
+
+sampler2D Texture;	//Texture for render
+
+//
+//Structures
+//
+
+struct PS_INPUT{
+	float2 texCoord : TEXCOORD0;
+};
+
+struct PS_OUTPUT{
+	vector color : COLOR0;
+};
+
+//
+//Main
+//
+PS_OUTPUT Main(PS_INPUT input){
+	// zero out members of output
+	PS_OUTPUT output = (PS_OUTPUT)0;
+
+	//Set color from texture
+	output.color = tex2D(Texture, input.texCoord);
+
+	return output;
+}
