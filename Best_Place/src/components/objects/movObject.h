@@ -14,7 +14,7 @@
 #define PLATFORM_RESISTANCE	0.0002f
 #define OBJ_ICE_RESISTANCE	0.002f
 
-#define JUMP_PL_ACCEL		10.0f
+#define JUMP_PL_ACCEL		30.0f
 
 class MobileObject : public Object {
 protected:

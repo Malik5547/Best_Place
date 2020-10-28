@@ -14,14 +14,16 @@
 #define PLAYER_SIZE			{PLAYER_WIDTH, PLAYER_HEIGHT}
 #define PLAYER_LIFES		3
 #define PLAYER_TEXTURE_SRC	"src/data/player.png"
-#define PLAYER_WEIGHT		5.0f
+#define PLAYER_WEIGHT		20.0f
 #define PLAYER_SPEED		4.0f
-#define PLAYER_JUMP			10.0f	
+#define PLAYER_JUMP			20.0f	
 
 #define ICE_TIMER_VAL		0.1f  //
 
 	//Upgrades
 #define JUMP_BOOTS_ACCELERATION		15.0f	
+
+#define AIR_RESISTANCE		0.01f
 
 namespace World {
 
@@ -48,6 +50,9 @@ namespace World {
 		Texture* player_texture = nullptr;					//Player texture
 		
 		PlayerSp::UpgradesStruct* _upgrades;						//Upgrade list
+		
+		void UpdatePos(float timeDelta);				//Update position
+		void UpdatePosAlt(float timeDelta);				//Update position (alternative)
 	};
 
 	void PlayerInit(Vector pos, IDirect3DDevice9* device);	//Init player
