@@ -53,7 +53,7 @@ void Game::Run(float timeDelta) {
 		}
 
 
-		World::Player()->Update(timeDelta);
+	//	World::Player()->Update(timeDelta);
 
 		//Update FPS
 		FPSTimer::Update(timeDelta);

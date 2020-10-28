@@ -180,20 +180,6 @@ void Render::RenderWorld(float timeDelta) {
 			Render_queue.pop();							//Pop this sprite
 		}
 
-	//	static bool b = false;
-	//	if (::GetAsyncKeyState('H') & 0x8000f) {
-	//		b = true;
-	//	}
-	//	if (::GetAsyncKeyState('J') & 0x8000f) {
-	//		b = false;
-	//	}
-	//	if (b) {
-	//		PlayerSp::UpgradeListUpdate();
-	//		_vShader->SetVertexProc(_device, VPROC_WND);
-	//		PlayerSp::DrawUpgradeList(_device, _pShader);
-	//		_vShader->SetVertexProc(_device, VPROC_DEF);
-	//	}
-
 		//
 		//Show FPS and other GUI datas
 		//
@@ -201,8 +187,8 @@ void Render::RenderWorld(float timeDelta) {
 		GUI::DrawFPS();
 		std::string xRow = "X: " + std::to_string(World::Player()->GetPosition().x);
 		std::string yRow = "Y: " + std::to_string(World::Player()->GetPosition().y);
-		GUI::GUIText(xRow.c_str());
-		GUI::GUIText(yRow.c_str());
+		GUI::TextDraw(xRow);
+		GUI::TextDraw(yRow);
 		//Draw menu
 		if (_vShader->SetVertexProc(_device, VPROC_WND)) {
 			//Set raw drawing

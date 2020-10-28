@@ -20,10 +20,6 @@ namespace World {
 		player.Update(timeDelta);
 	}
 
-//void PlayerDraw(IDirect3DDevice9* device, PixelShader* pShader) {
-//	player.Draw(device, pShader);
-//}
-
 	void PlayerDraw() {
 		player.Draw();
 	}
@@ -86,8 +82,51 @@ namespace World {
 		//Spawn player on the last height
 		SetPosition({ 0.0f, max_height });
 	}
-
+	
 	void PlayerClass::Update(float timeDelta) {
+		static bool PhisicType = true;
+
+		if (::GetAsyncKeyState('T') & 0x8000f) {
+			PhisicType = true;
+		}
+		if (::GetAsyncKeyState('Y') & 0x8000f) {
+			PhisicType = false;
+		}
+		
+		//
+		//Update position
+		//
+		if (PhisicType)
+			UpdatePos(timeDelta);
+		else
+			UpdatePosAlt(timeDelta);
+
+		//Show velocity
+		std::string vel = "Velocity {X}: ";
+		vel += std::to_string(_velocity.x);
+		GUI::TextDraw(vel);
+
+
+		//Handle collision
+		if (_collRegister == MOBILE_COLL_REG)
+			if (!Collision::Update(this)) {
+				_platform = ObjType::NOTHING;
+			}
+
+		//_position += _velocity * timeDelta;
+
+		//Reset move vector
+		_move = { 0.0f, 0.0f };
+
+		//Update max height
+		if (_position.y > max_height)
+			max_height = _position.y;
+		else if (_position.y < max_height - PLAYER_EDGE_DIST) {
+			Die();
+		}
+	}
+
+	void PlayerClass::UpdatePos(float timeDelta) {
 		static float ice_timer = 0.0f;	//Player can't move some time after falling from ice platform
 
 		//
@@ -122,7 +161,7 @@ namespace World {
 		case NOTHING:
 			//Object is in air
 			_velocity += _acceleration * timeDelta;
-			
+
 			//Check if the object fall from ice platform
 			if (ice_timer <= 0.0f)
 				_velocity.x = _move.x;
@@ -138,25 +177,50 @@ namespace World {
 			SetPosition(_position + _velocity * timeDelta);
 			break;
 		}
+	}
 
+	void PlayerClass::UpdatePosAlt(float timeDelta) {
 
+		switch (_platform) {
+		case ICE_PLATFORM:
+			//Object is sliding
+			_velocity += _acceleration * timeDelta;
 
-		//Handle collision
-		if (_collRegister == MOBILE_COLL_REG)
-			if (!Collision::Update(this)) {
-				_platform = ObjType::NOTHING;
+			if (ABS(_velocity.x) < _speed) {
+				//Increase velocity
+				_velocity.x += _move.x * timeDelta;
 			}
+			_velocity -= _velocity * OBJ_ICE_RESISTANCE;
 
-		//_position += _velocity * timeDelta;
+			SetPosition(_position + _velocity * timeDelta);
+			break;
+		case JUMP_PLATFORM:
+			//Object is pushed up
 
-		//Reset move vector
-		_move = { 0.0f, 0.0f };
+			_velocity += _acceleration * timeDelta;
+			_velocity.x = _move.x;
+			_velocity.y = JUMP_PL_ACCEL;
 
-		//Update max height
-		if (_position.y > max_height)
-			max_height = _position.y;
-		else if (_position.y < max_height - PLAYER_EDGE_DIST) {
-			Die();
+			SetPosition(_position + _velocity * timeDelta);
+
+			break;
+		case NOTHING:
+			//Object is in air
+			_velocity += _acceleration * timeDelta;
+
+			//Set X speed
+			if (ABS(_velocity.x) < _speed)
+				_velocity.x += _move.x * timeDelta;
+			_velocity.x -= AIR_RESISTANCE * _velocity.x;
+
+			SetPosition(_position + _velocity * timeDelta);
+			break;
+		default:
+			//Object is moving clear
+			_velocity += _acceleration * timeDelta;
+			_velocity.x = _move.x;
+			SetPosition(_position + _velocity * timeDelta);
+			break;
 		}
 	}
 

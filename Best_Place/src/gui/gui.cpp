@@ -2,6 +2,8 @@
 
 namespace GUI {
 
+	std::queue<std::string > String_Queue;	//Queue of strings to render
+
 	void Init(const char* fontName, DWORD fHeight, IDirect3DDevice9* device, Camera* camptr) {
 		if (GUISystem._textFont != nullptr) {
 			//If there is already a text font release it
@@ -18,27 +20,38 @@ namespace GUI {
 		DebugMenu::SetWindowSize(size);
 	}
 
-	void GUIText(const char* string) {
-		//Get y position of actual row
-		float y = GUISystem._textFont->GetHeight() * GUISystem._row;
-		//Render text
-		GUISystem._textFont->Draw(TEXT_X, y, string);
-		//Update row
-		GUISystem._row++;
+	void TextDraw(std::string text) {
+		String_Queue.push(text);
+	}
+
+	void DrawAllText() {
+		int row = 0;	//String row
+		float y;		//Y position of string
+
+		while (!String_Queue.empty()) {
+			//Calculate Y position of actual string
+			y = GUISystem._textFont->GetHeight() * row;
+			row++;
+			//Draw string
+			const char* string = String_Queue.front().c_str();		//Get string
+			GUISystem._textFont->Draw(TEXT_X, y, string);
+			String_Queue.pop();									//Pop this string
+		}
 	}
 
 	void DrawFPS() {
 		std::string fpsText = "FPS: ";
 		fpsText = fpsText + std::to_string(FPSTimer::GetFPS());
 		
-		GUIText(fpsText.c_str());
+		TextDraw(fpsText);
 	}
 
 	void Update() {
 		//Update debug menus
 		DebugMenu::Update();
 
-		GUISystem._row = 1; 
+		//Draw all text
+		DrawAllText();
 	}
 
 	void Release() {
