@@ -29,7 +29,7 @@ void MobileObject::SetWeight(float weight) {
 	//Set new weight
 	_weight = weight;
 	//Apply new weight
-	_acceleration.y -= _weight;
+	_acceleration.y -= weight;
 }
 
 void MobileObject::Interact(Object* object) {

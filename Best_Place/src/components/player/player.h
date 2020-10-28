@@ -14,9 +14,9 @@
 #define PLAYER_SIZE			{PLAYER_WIDTH, PLAYER_HEIGHT}
 #define PLAYER_LIFES		3
 #define PLAYER_TEXTURE_SRC	"src/data/player.png"
-#define PLAYER_WEIGHT		10.0f
+#define PLAYER_WEIGHT		20.0f
 #define PLAYER_SPEED		4.0f
-#define PLAYER_JUMP			10.0f	
+#define PLAYER_JUMP			20.0f	
 
 #define ICE_TIMER_VAL		0.1f  //
 

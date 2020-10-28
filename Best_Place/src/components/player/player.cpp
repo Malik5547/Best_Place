@@ -67,7 +67,7 @@ namespace World {
 	}
 
 	void PlayerClass::Jump() {
-		if (_velocity.y == 0.0f) {
+		if (_platform != NOTHING) {
 			if (_upgrades->jump_boots != true)
 				SetVelocityY(PLAYER_JUMP);
 			else
@@ -103,17 +103,17 @@ namespace World {
 
 		//Show velocity
 		std::string vel = "Velocity {X}: ";
+		std::string v = "Velocity {Y}: ";
 		vel += std::to_string(_velocity.x);
+		v += std::to_string(_velocity.y);
 		GUI::TextDraw(vel);
-
+		GUI::TextDraw(v);
 
 		//Handle collision
 		if (_collRegister == MOBILE_COLL_REG)
 			if (!Collision::Update(this)) {
 				_platform = ObjType::NOTHING;
 			}
-
-		//_position += _velocity * timeDelta;
 
 		//Reset move vector
 		_move = { 0.0f, 0.0f };
@@ -211,6 +211,7 @@ namespace World {
 			//Set X speed
 			if (ABS(_velocity.x) < _speed)
 				_velocity.x += _move.x * timeDelta;
+
 			_velocity.x -= AIR_RESISTANCE * _velocity.x;
 
 			SetPosition(_position + _velocity * timeDelta);
