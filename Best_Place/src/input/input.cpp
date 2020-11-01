@@ -13,6 +13,8 @@ void Input::KeyHandle(UINT state, WPARAM key) {
 			Control._up = PRESSED;
 		else if (key == DOWN_CODE)
 			Control._down = PRESSED;
+		else if (key == SPACE_CODE)
+			Control._space = PRESSED;
 		else if (key == W_CODE)
 			Control._w = HOLDED;
 		else if (key == S_CODE)
@@ -31,6 +33,8 @@ void Input::KeyHandle(UINT state, WPARAM key) {
 			Control._up = RELEASED;
 		else if (key == DOWN_CODE)
 			Control._down = RELEASED;
+		else if (key == SPACE_CODE)
+			Control._space = RELEASED;
 		else if (key == W_CODE)
 			Control._w = RELEASED;
 		else if (key == S_CODE)
@@ -54,6 +58,9 @@ bool Input::IsKeyPressed(Control_Key key) {
 		break;
 	case Control_Key::DOWN:
 		return Control._down == PRESSED ? true : false;
+		break;
+	case Control_Key::SPACE:
+		return Control._space == PRESSED ? true : false;
 		break;
 	case Control_Key::W:
 		return Control._w == PRESSED ? true : false;

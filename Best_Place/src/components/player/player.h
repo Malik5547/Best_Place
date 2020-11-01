@@ -4,6 +4,7 @@
 #include "../objects/movObject.h"
 #include "../phisics/collision/collisionSys.h"
 #include "upgrade_list.h"
+#include "../../input/input.h"
 
 #define PLAYER_EDGE_DIST	20.0f	//Distance from player to upper and bottom edge
 
@@ -16,7 +17,9 @@
 #define PLAYER_TEXTURE_SRC	"src/data/player.png"
 #define PLAYER_WEIGHT		20.0f
 #define PLAYER_SPEED		4.0f
-#define PLAYER_JUMP			20.0f	
+#define PLAYER_JUMP_MAX		16.0f	
+#define PLAYER_DEAC_TIME	0.5f		//Player deacceleration time
+#define PLAYER_MOBILITY		2.0f		//The mobility of player in the air
 
 #define ICE_TIMER_VAL		0.1f  //
 
@@ -48,6 +51,10 @@ namespace World {
 		float max_height = 0.0f;						//Maximum height that player got
 		unsigned char lifes = PLAYER_LIFES;				//Player lifes
 		Texture* player_texture = nullptr;					//Player texture
+
+		bool _canjump = true;
+		bool _jumped = false;
+		float jump_time = 0.0f;
 		
 		PlayerSp::UpgradesStruct* _upgrades;						//Upgrade list
 		

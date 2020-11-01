@@ -99,8 +99,8 @@ namespace World {
 			maxpos.x = PLAYER_SPEED * jumpTime;
 			break;
 		default:
-			jumpTime = PLAYER_JUMP / ABS(PlayerGetAcceleration().y);
-			maxpos.y = (PLAYER_JUMP * PLAYER_JUMP) / ABS(2 * PlayerGetAcceleration().y) - PLATFORM_HEIGHT;
+			jumpTime = PLAYER_JUMP_MAX / ABS(PlayerGetAcceleration().y);
+			maxpos.y = (PLAYER_JUMP_MAX * PLAYER_JUMP_MAX) / ABS(2 * PlayerGetAcceleration().y) - PLATFORM_HEIGHT;
 			maxpos.x = PLAYER_SPEED * jumpTime;
 			break;
 		}

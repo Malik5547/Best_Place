@@ -42,7 +42,7 @@ void Game::Run(float timeDelta) {
 			//SetCamPos(_cam->GetX(), _cam->GetY() + 0.001f);
 			World::Player()->Move({ 0.0f, -1.0f });
 		}
-		if (::GetAsyncKeyState(' ') & 0x8000f) {
+		if (IS_PRESSED(Input::SPACE)) {
 			World::Player()->Jump();
 		}
 		if (::GetAsyncKeyState('O') & 0x8000f) {

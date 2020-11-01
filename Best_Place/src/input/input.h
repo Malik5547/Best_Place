@@ -14,7 +14,7 @@ namespace Input {
 
 	//Keys used in game
 	enum Control_Key {
-		RIGHT, LEFT, UP, DOWN, W, S
+		RIGHT, LEFT, UP, DOWN, SPACE, W, S
 	};
 
 	//States for every control element
@@ -24,18 +24,21 @@ namespace Input {
 
 	//Controll class
 	class {
+		//Key codes
 		KEY_CODE _rightKey = VK_RIGHT;
 		KEY_CODE _leftKey = VK_LEFT;
 		KEY_CODE _upKey = VK_UP;
 		KEY_CODE _downKey = VK_DOWN;
+		KEY_CODE _spaceKey = VK_SPACE;
 
 		KEY_CODE _wKey = 0x57;
 		KEY_CODE _sKey = 0x53;
-
+		//Key states
 		Key_State _up = RELEASED;
 		Key_State _down = RELEASED;
 		Key_State _left = RELEASED;
 		Key_State _right = RELEASED;
+		Key_State _space = RELEASED;
 
 		Key_State _w = RELEASED;
 		Key_State _s = RELEASED;
@@ -50,6 +53,7 @@ namespace Input {
 #define LEFT_CODE	Control._leftKey
 #define UP_CODE		Control._upKey
 #define DOWN_CODE	Control._downKey
+#define SPACE_CODE	Control._spaceKey
 #define W_CODE	Control._wKey
 #define S_CODE	Control._sKey
 

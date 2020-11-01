@@ -68,11 +68,13 @@ namespace World {
 
 	void PlayerClass::Jump() {
 		if (_platform != NOTHING) {
-			if (_upgrades->jump_boots != true)
-				SetVelocityY(PLAYER_JUMP);
-			else
-				SetVelocityY(JUMP_BOOTS_ACCELERATION);
+			//If the player is on the platform, then he jumps, and we set jumped flag
+			SetVelocityY(PLAYER_JUMP_MAX);
+			_jumped = true;
 		}
+		else if (_velocity.y < 0.0f)
+			//The player is still pressing space, but he is already falling
+			_jumped = false;
 	}
 
 	void PlayerClass::Die() {
@@ -84,7 +86,28 @@ namespace World {
 	}
 	
 	void PlayerClass::Update(float timeDelta) {
-		static bool PhisicType = true;
+		static bool PhisicType = false;
+		static float jump_accel = 0.0f;		//Jump deacceleration, when player release space
+		
+		//								
+		//Jump update
+		//
+		if (_jumped) {
+			if (!IS_PRESSED(Input::SPACE)) {
+				//If player has released space, set deacceleration
+				jump_accel = _velocity.y / PLAYER_DEAC_TIME;
+				_jumped = false;
+			}
+		}
+
+		//Update Y velocity
+		SetVelocityY(_velocity.y -= jump_accel * timeDelta);
+		
+		//Reset deacceleration
+		if (_platform != NOTHING) {
+			jump_accel = 0.0f;
+		}
+
 
 		if (::GetAsyncKeyState('T') & 0x8000f) {
 			PhisicType = true;
@@ -210,7 +233,7 @@ namespace World {
 
 			//Set X speed
 			if (ABS(_velocity.x) < _speed)
-				_velocity.x += _move.x * timeDelta;
+				_velocity.x += _move.x * timeDelta * PLAYER_MOBILITY;
 
 			_velocity.x -= AIR_RESISTANCE * _velocity.x;
 
