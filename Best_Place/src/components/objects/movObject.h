@@ -24,7 +24,7 @@ protected:
 	float _speed = 4.0f;					//Object speed (scalar)
 	float _weight = 0.0f;					//Object weight
 
-	ObjType _platform = ObjType::NOTHING;						//Type of platform above object
+	ObjType _platformType = ObjType::NOTHING;						//Type of platform above object
 
 public:
 	MobileObject();
@@ -45,7 +45,8 @@ public:
 	float GetVelocityY() { return _velocity.y; }
 	virtual float GetMaxHeight();	//Max height for player class
 
-	void Interact(Object* object);		//Interaction betwen objects when they collide
+	virtual void Interact(Object* object);		//Interaction betwen objects when they collide
+	virtual void Die();							//When player or enemy dies
 
 	void Move(Vector direction);	//Move the object in direction with setted speed
 

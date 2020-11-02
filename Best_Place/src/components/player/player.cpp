@@ -67,7 +67,7 @@ namespace World {
 	}
 
 	void PlayerClass::Jump() {
-		if (_platform != NOTHING) {
+		if (_platformType != NOTHING) {
 			//If the player is on the platform, then he jumps, and we set jumped flag
 			SetVelocityY(PLAYER_JUMP_MAX);
 			_jumped = true;
@@ -75,6 +75,15 @@ namespace World {
 		else if (_velocity.y < 0.0f)
 			//The player is still pressing space, but he is already falling
 			_jumped = false;
+	}
+
+	void PlayerClass::Interact(Object* object) {
+		_platformType = object->GetType();
+
+		if (_platformType == ObjType::DUMMY_PLATFORM) {
+			if (!object->IsTriggered())
+				object->Trigger();
+		}
 	}
 
 	void PlayerClass::Die() {
@@ -104,7 +113,7 @@ namespace World {
 		SetVelocityY(_velocity.y -= jump_accel * timeDelta);
 		
 		//Reset deacceleration
-		if (_platform != NOTHING) {
+		if (_platformType != NOTHING) {
 			jump_accel = 0.0f;
 		}
 
@@ -135,7 +144,7 @@ namespace World {
 		//Handle collision
 		if (_collRegister == MOBILE_COLL_REG)
 			if (!Collision::Update(this)) {
-				_platform = ObjType::NOTHING;
+				_platformType = ObjType::NOTHING;
 			}
 
 		//Reset move vector
@@ -156,7 +165,7 @@ namespace World {
 		//Set new position(Use SetPos())
 		///
 
-		switch (_platform) {
+		switch (_platformType) {
 		case ICE_PLATFORM:
 			//Object is sliding
 			_velocity += _acceleration * timeDelta;
@@ -204,7 +213,7 @@ namespace World {
 
 	void PlayerClass::UpdatePosAlt(float timeDelta) {
 
-		switch (_platform) {
+		switch (_platformType) {
 		case ICE_PLATFORM:
 			//Object is sliding
 			_velocity += _acceleration * timeDelta;

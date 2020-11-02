@@ -33,12 +33,9 @@ void MobileObject::SetWeight(float weight) {
 }
 
 void MobileObject::Interact(Object* object) {
-	_platform = object->GetType();
+}
 
-	if (_platform == ObjType::DUMMY_PLATFORM) {
-		if(!object->IsTriggered())
-			object->Trigger();
-	}
+void MobileObject::Die() {
 }
 
 void MobileObject::Move(Vector dir) {
@@ -55,7 +52,7 @@ void MobileObject::Update(float timeDelta) {
 	//Set new position(Use SetPos())
 	///
 
-	switch (_platform) {
+	switch (_platformType) {
 	case ICE_PLATFORM:
 		//Object is sliding
 		_velocity += _acceleration * timeDelta;
@@ -99,7 +96,7 @@ void MobileObject::Update(float timeDelta) {
 	//Handle collision
 	if (_collRegister == MOBILE_COLL_REG)
 		if (!Collision::Update(this)) {
-			_platform = ObjType::NOTHING;
+			_platformType = ObjType::NOTHING;
 		}
 
 	//_position += _velocity * timeDelta;

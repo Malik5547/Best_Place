@@ -20,18 +20,18 @@
 //Type of object
 #define TYPE_COUNT	4	//Number of platform types
 enum ObjType {
-	PLATFORM = 0, ICE_PLATFORM, DUMMY_PLATFORM, JUMP_PLATFORM, NOTHING, PLAYER,
+	PLATFORM = 0, ICE_PLATFORM, DUMMY_PLATFORM, JUMP_PLATFORM, NOTHING, PLAYER, ENEMY
 };
 
 
 class Object {
-	float _width, _height;			//Object width and height
 	ObjType _type;					//Object type
 	Sprite* _sprite = nullptr;	//Object texture(sprite). Null by default
 	Mesh* _mesh;				//Object mesh. Object must have mesh
 
 protected:
 	Vector	_position;				//Object position
+	float _width, _height;			//Object width and height
 	char _collRegister;			//Is object registered in colision system
 	bool _alive = true;			//Is object alive
 
@@ -48,10 +48,12 @@ public:
 	void SetPosition(Vector position);	//Change position
 
 	//Get fucntions
+	inline Vector GetPos() {return _position; }		//Get position
 	Mesh* GetMesh() { return _mesh; }
 	Vector GetPosition() { return _position; }	//Get position
 	float GetWidth() { return _width; }		//Get width
 	float GetHeight() { return _height; }	//Get height
+	inline Vector GetSize() {return Vector{ _width, _height }; }	//Get size
 	ObjType GetType() { return _type; }		//Get type
 	bool IsAlive() { return _alive; }		//Is object alive
 	virtual float GetMaxHeight();	//Max height for player class

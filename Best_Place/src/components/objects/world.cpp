@@ -45,10 +45,14 @@ namespace World {
 
 		//Spawn basic objects
 
-		SpawnObject({ -5.0f, -5.0f }, { 10.0f, 2.0f });
+		Object* platform = SpawnObject({ -5.0f, -5.0f }, { 10.0f, 2.0f });
 		SpawnObject({ -4.0f, 1.0f }, { 3.0f, 1.0f }, ObjType::ICE_PLATFORM);
 		SpawnObject({ 2.0f, 3.0f }, { 4.0f, 1.0f }, ObjType::DUMMY_PLATFORM);
 		SpawnObject({ 4.0f, 5.0f }, { 5.0f, 1.0f }, ObjType::JUMP_PLATFORM);
+
+		//Test enemy
+		SimpleEnemyInit(WorldClass._device);
+		SpawnEnemy(platform);
 
 		//Init player
 		Player()->Init(PLAYER_POS, device);
@@ -58,7 +62,7 @@ namespace World {
 		WorldClass.w_back->SetFollow(Player());
 	}
 
-	void SpawnObject(Vector pos, Vector size, ObjType type) {
+	Object* SpawnObject(Vector pos, Vector size, ObjType type) {
 		Object* obj;
 
 		switch (type) {
@@ -78,12 +82,20 @@ namespace World {
 
 		//Save object in world
 		WorldClass.w_objects.push_front(obj);
+
+		return obj;
 	}
 
 	void SpawnPlatform(Vector pos) {
 		ObjType type = PlatformType(pos.y);
 		
 		SpawnObject(pos, PLATFORM_SIZE, type);
+	}
+
+	void SpawnEnemy(Object* platform) {
+		SimpleEnemy* enemy = new SimpleEnemy(platform, WorldClass._device);
+
+		WorldClass.w_movObjects.push_front((MobileObject*)enemy);
 	}
 
 	Vector NewPlatformPos(Object* platform) {
@@ -237,6 +249,7 @@ namespace World {
 
 	void UpdateWorld(float timeDelta) {
 		auto object = WorldClass.w_objects.begin();
+		auto movObject = WorldClass.w_movObjects.begin();
 
 		//
 		//Spawn new platforms
@@ -245,7 +258,9 @@ namespace World {
 			GeneratePlatforms();
 		}
 
-
+		//
+		//Update static objects
+		//
 		while (object != WorldClass.w_objects.end()) {
 			//Update every object
 			if ((*object)->IsAlive()) {
@@ -261,6 +276,27 @@ namespace World {
 					object++;
 				delete* temp;
 				WorldClass.w_objects.remove(*temp);
+			}
+		}
+
+		//
+		//Update mobile objects
+		//
+		while (movObject != WorldClass.w_movObjects.end()) {
+			//Update every object
+			if ((*movObject)->IsAlive()) {
+				(*movObject)->Update(timeDelta);
+				movObject++;
+			}
+			else {
+				//Remove non active objects
+				auto temp = movObject;
+				if (movObject == WorldClass.w_movObjects.end())
+					movObject--;
+				else
+					movObject++;
+				delete* temp;
+				WorldClass.w_movObjects.remove(*temp);
 			}
 		}
 
@@ -288,10 +324,15 @@ namespace World {
 	void DrawWorld() {
 		//First draw background
 		WorldClass.w_back->Draw();
-
+		//Draw static objects
 		for (auto object = WorldClass.w_objects.begin(); object != WorldClass.w_objects.end(); object++) {
 			//Draw every object
 			(*object)->Draw();
+		}
+		//Draw mobile objects
+		for (auto movObject = WorldClass.w_movObjects.begin(); movObject != WorldClass.w_movObjects.end(); movObject++) {
+			//Draw every object
+			(*movObject)->Draw();
 		}
 
 		PlayerDraw();

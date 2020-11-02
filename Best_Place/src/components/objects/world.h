@@ -10,6 +10,7 @@
 #include "../player/upgrade_list.h"
 #include "dummy_platform.h"
 #include "../background/background.h"
+#include "../enemies/simpleEnemy.h"
 
 #include <list>
 
@@ -50,9 +51,10 @@ namespace World {
 
 	class {
 		friend void InitWorld(IDirect3DDevice9* device);
-		friend void SpawnObject(Vector pos, Vector size, ObjType type);
+		friend Object* SpawnObject(Vector pos, Vector size, ObjType type);
 		friend void SpawnPlatform(Vector pos);
-		
+		friend void SpawnEnemy(Object* platform);
+
 		friend Vector NewPlatformPos(Object* platform);
 		friend void CreateNearPlatform(Object* platform, char side);
 		friend void AdjectivePlatforms(Vector newPos);
@@ -71,13 +73,15 @@ namespace World {
 
 		IDirect3DDevice9* _device;						//Device ptr
 		std::list<Object*> w_objects;			//World objects
+		std::list<MobileObject*> w_movObjects;		//World mobile objects
 		Background* w_back;						//World background
 		WorldState w_state = WORLD_STATE;		//State of the world(is player in the shop)
 	} WorldClass;
 
 
 	void InitWorld(IDirect3DDevice9* device);	//Generate world
-	void SpawnObject(Vector pos, Vector size, ObjType type = ObjType::PLATFORM);	//Spawn an object
+	Object* SpawnObject(Vector pos, Vector size, ObjType type = ObjType::PLATFORM);	//Spawn an object
+	void SpawnEnemy(Object* platform);						//Spawn enemy
 
 	Vector NewPlatformPos(Object* platform);		//Get new platform position
 	ObjType PlatformType(float height);					//Calculate the platform type

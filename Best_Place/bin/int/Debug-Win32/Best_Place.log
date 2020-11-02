@@ -1,12 +1,2 @@
-﻿  background.cpp
-  world.cpp
-  player.cpp
-  game.cpp
-  gameLaunch.cpp
-  gui.cpp
-  comands.cpp
-  debugMenus.cpp
-  sprite.cpp
-  render.cpp
-  Создание кода...
+﻿  simpleEnemy.cpp
   Best_Place.vcxproj -> D:\Best_Place\Best_Place\bin\Debug-Win32\Best_Place.exe

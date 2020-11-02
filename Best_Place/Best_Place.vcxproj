@@ -98,6 +98,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,6 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,6 +154,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\components\background\background.cpp" />
+    <ClCompile Include="src\components\enemies\AI\simpleAI.cpp" />
+    <ClCompile Include="src\components\enemies\enemy.cpp" />
+    <ClCompile Include="src\components\enemies\simpleEnemy.cpp" />
     <ClCompile Include="src\components\objects\dummy_platform.cpp" />
     <ClCompile Include="src\components\objects\mesh.cpp" />
     <ClCompile Include="src\components\objects\movObject.cpp" />
@@ -189,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\background\background.h" />
+    <ClInclude Include="src\components\enemies\AI\simpleAI.h" />
+    <ClInclude Include="src\components\enemies\enemy.h" />
+    <ClInclude Include="src\components\enemies\simpleEnemy.h" />
     <ClInclude Include="src\components\objects\dummy_platform.h" />
     <ClInclude Include="src\components\objects\mesh.h" />
     <ClInclude Include="src\components\objects\movObject.h" />

@@ -39,7 +39,9 @@ namespace World {
 		void SetBoots(bool val) { _upgrades->jump_boots = val; }
 
 		void Jump();
-		void Die();			//Player dies
+
+		virtual void Interact(Object* object);	//Interact with objects
+		virtual void Die() override;			//Player dies
 
 		virtual void Update(float timeDelta) override;	//Update the position
 
@@ -52,9 +54,7 @@ namespace World {
 		unsigned char lifes = PLAYER_LIFES;				//Player lifes
 		Texture* player_texture = nullptr;					//Player texture
 
-		bool _canjump = true;
-		bool _jumped = false;
-		float jump_time = 0.0f;
+		bool _jumped = false;							//Is player now jumping
 		
 		PlayerSp::UpgradesStruct* _upgrades;						//Upgrade list
 		
