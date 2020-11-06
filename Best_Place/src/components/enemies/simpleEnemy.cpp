@@ -9,12 +9,10 @@ SimpleEnemy::SimpleEnemy(Object* platform, IDirect3DDevice9* device) :
 	_platform = platform;
 }
 
-void SimpleEnemy::Interact(MobileObject* obj) {
-	if (obj->GetType() == ObjType::PLAYER) {
-		if (obj->GetPosition().y > _position.y + _height)
+void SimpleEnemy::Interact(Object* object, CollisionSide side) {
+	if (object->GetType() == ObjType::PLAYER) {
+		if (side == COLLISION_T)
 			Die();
-		else
-			obj->Die();
 	}
 }
 

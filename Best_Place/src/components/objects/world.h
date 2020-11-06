@@ -11,6 +11,7 @@
 #include "dummy_platform.h"
 #include "../background/background.h"
 #include "../enemies/simpleEnemy.h"
+#include "../../gui/gui.h"
 
 #include <list>
 
@@ -52,11 +53,11 @@ namespace World {
 	class {
 		friend void InitWorld(IDirect3DDevice9* device);
 		friend Object* SpawnObject(Vector pos, Vector size, ObjType type);
-		friend void SpawnPlatform(Vector pos);
+		friend Object* SpawnPlatform(Vector pos);
 		friend void SpawnEnemy(Object* platform);
 
 		friend Vector NewPlatformPos(Object* platform);
-		friend void CreateNearPlatform(Object* platform, char side);
+		friend Object* CreateNearPlatform(Object* platform, char side);
 		friend void AdjectivePlatforms(Vector newPos);
 		friend void GeneratePlatforms();
 		friend void HandleCollisions(Object** platforms, int count);
@@ -79,16 +80,16 @@ namespace World {
 	} WorldClass;
 
 
-	void InitWorld(IDirect3DDevice9* device);	//Generate world
+	void	InitWorld(IDirect3DDevice9* device);	//Generate world
 	Object* SpawnObject(Vector pos, Vector size, ObjType type = ObjType::PLATFORM);	//Spawn an object
-	void SpawnEnemy(Object* platform);						//Spawn enemy
+	void	SpawnEnemy(Object* platform);						//Spawn enemy
 
-	Vector NewPlatformPos(Object* platform);		//Get new platform position
+	Vector	NewPlatformPos(Object* platform);		//Get new platform position
 	ObjType PlatformType(float height);					//Calculate the platform type
-	void AdjectivePlatforms(Vector newPos);		//Generate adjective platforms before last platform
-	void CreateNearPlatform(Object* platform, char side);		//Spawn platform near to other platform 
-	void GeneratePlatforms();		//Random spawn new platforms
-	void HandleCollisions(Object** platforms, int count);			//Handle collisions between platforms
+	void	AdjectivePlatforms(Vector newPos);		//Generate adjective platforms before last platform
+	Object* CreateNearPlatform(Object* platform, char side);		//Spawn platform near to other platform 
+	void	GeneratePlatforms();		//Random spawn new platforms
+	void	HandleCollisions(Object** platforms, int count);			//Handle collisions between platforms
 
 	void Update(float timeDelta);		//Update world
 	static void UpdateWorld(float timeDelta);				//Update function of the world

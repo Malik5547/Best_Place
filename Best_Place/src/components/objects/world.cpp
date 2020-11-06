@@ -86,10 +86,23 @@ namespace World {
 		return obj;
 	}
 
-	void SpawnPlatform(Vector pos) {
+	Object* SpawnPlatform(Vector pos) {
 		ObjType type = PlatformType(pos.y);
+		//Spawn platform
+		Object* platform = SpawnObject(pos, PLATFORM_SIZE, type);
 		
-		SpawnObject(pos, PLATFORM_SIZE, type);
+		if (type != JUMP_PLATFORM && type != DUMMY_PLATFORM) {
+			//If the platform is not jump platform, it may spawn an enemy
+			//Probability of enemy spawning. Depends by height of platform and max height.
+			float enemyProb = (1 - smoothstep(0, 1, (float)((float)(MAXY - pos.y) / (float)MAXY))) / 2;
+
+			if ((float)rand() / RAND_MAX < enemyProb) {
+				//If the rand fit the probability, then spawn enemy
+				SpawnEnemy(platform);
+			}
+		}
+
+		return platform;
 	}
 
 	void SpawnEnemy(Object* platform) {
@@ -193,16 +206,17 @@ namespace World {
 		for (int i = 1; i < count; i++) {
 			if (side = platform->IsCollided(platforms[i], { PLATFORM_DIST_X, PLATFORM_DIST_Y })) {
 				WorldClass.w_objects.pop_front();			//First remove created platform from world
-				CreateNearPlatform(platforms[i], side);		//Create new platform that doesn't collide
+				delete platform;							//Delete this platform
+
+				platforms[count] = CreateNearPlatform(platforms[i], side);		//Create new platform that doesn't collide
 				
-				delete platform;
 				break;
 			}
 		}
 
 	}
 
-	void CreateNearPlatform(Object* platform, char side) {
+	Object* CreateNearPlatform(Object* platform, char side) {
 		Vector pos;
 		
 		//Calculate the new position
@@ -222,7 +236,7 @@ namespace World {
 		}
 
 		//Spawn platform
-		SpawnPlatform(pos);
+		return SpawnPlatform(pos);
 	}
 
 	void Update(float timeDelta) {

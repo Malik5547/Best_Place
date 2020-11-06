@@ -53,7 +53,7 @@ namespace World {
 		player_texture = new Texture(PLAYER_TEXTURE_SRC, device);
 
 		//Create object
-		MobileObject::Init(pos.x, pos.y, PLAYER_WIDTH, PLAYER_HEIGHT, player_texture, device);
+		MobileObject::Init(pos.x, pos.y, PLAYER_WIDTH, PLAYER_HEIGHT, player_texture, device, ObjType::PLAYER);
 		//Set weight
 		SetWeight(PLAYER_WEIGHT);
 		
@@ -77,12 +77,16 @@ namespace World {
 			_jumped = false;
 	}
 
-	void PlayerClass::Interact(Object* object) {
+	void PlayerClass::Interact(Object* object, CollisionSide side) {
 		_platformType = object->GetType();
 
 		if (_platformType == ObjType::DUMMY_PLATFORM) {
 			if (!object->IsTriggered())
 				object->Trigger();
+		}
+		else if (_platformType == ObjType::ENEMY) {
+			if(side != COLLISION_B)
+				Die();
 		}
 	}
 
@@ -132,14 +136,6 @@ namespace World {
 			UpdatePos(timeDelta);
 		else
 			UpdatePosAlt(timeDelta);
-
-		//Show velocity
-		std::string vel = "Velocity {X}: ";
-		std::string v = "Velocity {Y}: ";
-		vel += std::to_string(_velocity.x);
-		v += std::to_string(_velocity.y);
-		GUI::TextDraw(vel);
-		GUI::TextDraw(v);
 
 		//Handle collision
 		if (_collRegister == MOBILE_COLL_REG)

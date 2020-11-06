@@ -11,9 +11,11 @@
 
 namespace Collision {
 
+
 #define COLL_SYS		CollisionSystem
 #define COLL_SYS_STATIC COLL_SYS._staticObjects
 #define COLL_SYS_MOBILE COLL_SYS._mobileObjects
+
 
 	class{
 		std::forward_list<MobileObject*> _mobileObjects;	//List of mobile objects

@@ -45,7 +45,7 @@ public:
 	float GetVelocityY() { return _velocity.y; }
 	virtual float GetMaxHeight();	//Max height for player class
 
-	virtual void Interact(Object* object);		//Interaction betwen objects when they collide
+	virtual void Interact(Object* object, CollisionSide side);		//Interaction betwen objects when they collide
 	virtual void Die();							//When player or enemy dies
 
 	void Move(Vector direction);	//Move the object in direction with setted speed

@@ -12,7 +12,7 @@ class SimpleEnemy : protected Enemy {
 public:
 	SimpleEnemy(Object* platform, IDirect3DDevice9* device);
 
-	virtual void Interact(MobileObject* obj) override;
+	virtual void Interact(Object* object, CollisionSide side) override;
 
 	virtual void Update(float timeDelta) override;
 

@@ -18,13 +18,12 @@ public:
 
 	inline void SetDir(ENEMY_DIR dir) {_direction = dir; }	//Set direction
 
+	virtual void Interact(Object* object, CollisionSide side) override;
 
 protected:
 
 	Enemy(Vector pos, Vector size, Texture* texture, IDirect3DDevice9* device);
 
-
-	virtual void Interact(MobileObject* obj);	
 
 	inline virtual EnemyType GetType() {return EnemyType::Undefined; }
 

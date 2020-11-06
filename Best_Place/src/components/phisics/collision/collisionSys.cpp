@@ -114,7 +114,7 @@ namespace Collision {
 			//Reset Y velocity
 			object->SetVelocityY(0.0f);
 			//Object is on the platform
-			object->Interact(other);
+			//object->Interact(other);
 			break;
 		case COLLISION_T:
 			//Set position to bottom
@@ -140,7 +140,24 @@ namespace Collision {
 			if (char side = Detect(object, *other)) {
 				//Objects are collided, we have to margin first object
 				Margin(object, *other, side);
+				object->Interact(*other, side);
 				ColDet = true;
+			}
+		}
+
+		//
+		//Mobile collision
+		//
+		for (auto other = COLL_SYS_MOBILE.begin(); other != COLL_SYS_MOBILE.end(); other++) {
+			//For each mobile object, check collision
+
+			if (object != *other) {
+				if (char side = Detect(object, *other)) {
+					//Objects are collided, we do not margin them, just interact
+				//	Margin(object, *other, side);
+					object->Interact(*other, side);
+					ColDet = true;
+				}
 			}
 		}
 

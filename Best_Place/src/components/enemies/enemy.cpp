@@ -5,6 +5,6 @@ Enemy::Enemy(Vector pos, Vector size, Texture* texture, IDirect3DDevice9* device
 {
 }
 
-void Enemy::Interact(MobileObject* obj){}
+void Enemy::Interact(Object* object, CollisionSide side){}
 
 void Enemy::Die() {}

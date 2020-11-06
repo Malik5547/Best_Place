@@ -32,7 +32,7 @@ void MobileObject::SetWeight(float weight) {
 	_acceleration.y -= weight;
 }
 
-void MobileObject::Interact(Object* object) {
+void MobileObject::Interact(Object* object, CollisionSide side) {
 }
 
 void MobileObject::Die() {

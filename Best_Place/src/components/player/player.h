@@ -40,7 +40,7 @@ namespace World {
 
 		void Jump();
 
-		virtual void Interact(Object* object);	//Interact with objects
+		virtual void Interact(Object* object, CollisionSide side) override;	//Interact with objects
 		virtual void Die() override;			//Player dies
 
 		virtual void Update(float timeDelta) override;	//Update the position

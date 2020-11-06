@@ -5,6 +5,8 @@
 #define ABS(x)		(x >= 0 ? x : -(x))	//Absolute value
 
 
+typedef char CollisionSide;		//Type for collision side
+
 namespace Collision {
 	//Defines for collision
 #define COLLISION_NO	0	//No collision
