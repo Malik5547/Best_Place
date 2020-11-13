@@ -8,7 +8,9 @@
 //Globals
 //
 
-sampler2D Texture;	//Texture for render
+sampler2D Texture;				//Texture for render
+bool	  Reverse = false;		//Is texture reversed
+float2	  LeftRightU;			//Left and right U coord
 
 //
 //Structures
@@ -26,11 +28,21 @@ struct PS_OUTPUT{
 //Main
 //
 PS_OUTPUT Main(PS_INPUT input){
+	float UCoord;			//New U coord
+	float2 UVCoord;			//New UV coord
+
 	// zero out members of output
 	PS_OUTPUT output = (PS_OUTPUT)0;
 
 	//Set color from texture
-	output.color = tex2D(Texture, input.texCoord);
+	if(!Reverse){
+		output.color = tex2D(Texture, input.texCoord);
+	} else{
+		 UCoord = LeftRightU.y - (input.texCoord.x - LeftRightU.x);	//Calculate new U coord
+		 UVCoord = float2(UCoord, input.texCoord.y);		//New UV coord
+
+		 output.color = tex2D(Texture, UVCoord);
+	}
 
 	return output;
 }

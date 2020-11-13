@@ -6,6 +6,7 @@
 //
 
 #include <d3d9.h>
+#include ".././../math/vector.h"
 #include "..\..\math\vector3.h"
 
 class Vertex {
@@ -22,6 +23,7 @@ public:
 	void SetUV(float u, float v) { _u = u; _v = v; }				//Change texture coordinates
 
 	Vector3 GetPos();	//Get position
+	Vector GetUV() { return Vector{ _u, _v }; }	//Get UV
 
 	~Vertex() {} //It does nothing. Yet
 };

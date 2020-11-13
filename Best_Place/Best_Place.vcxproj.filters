@@ -243,4 +243,8 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\render\shaders\pShader.txt" />
+    <Text Include="src\render\shaders\vShader.txt" />
+  </ItemGroup>
 </Project>

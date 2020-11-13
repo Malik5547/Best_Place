@@ -19,11 +19,16 @@
 #define ANIMATIONS_OVERFLOW			-2	//Return value if the order of animation is worong
 #define ANIMATIONS_SUCCES			-3
 
+	//Sprite direction
+#define DIR_RIGHT		1
+#define DIR_LEFT		0
+
 class Sprite {
 	//We need just 2 vertex position for left-bottom and right-upper vertex 
 	Vertex _leftBottom, _rightUpper;	//Left-bottom and right-upper vertex
 	Vector _size = { 1.0f, 1.0f };		//Sprite size
 	Vector _center;						//Center of the sprite(need for scaling)
+	bool _dir = DIR_RIGHT;							//Sprite direction
 
 	IDirect3DVertexBuffer9* _vertexBuffer;	//Vertex buffer (nullptr)
 	IDirect3DIndexBuffer9* _indexBuffer;	//Index buffer	(nullptr)
@@ -38,10 +43,11 @@ public:
 	Sprite(IDirect3DDevice9* device, Texture* texture);	//Just init buffers
 	Sprite(IDirect3DDevice9* device, float x1, float y1, float x2, float y2, Texture* texture);	//Init a sprite from 2 2D coordinates
 
-	void SetPos(float x1, float y1, float x2, float y2); //Set new positions for sprite
-	void SetUV(float u1, float v1, float u2, float v2);		//Set new UV position
-	void SetSize(Vector sizeVect) { _size = sizeVect; }		//Set size vector
-	char SetAnimation(int order);						//Set animation
+	void SetPos(float x1, float y1, float x2, float y2);		//Set new positions for sprite
+	void SetUV(float u1, float v1, float u2, float v2);			//Set new UV position
+	inline void SetSize(Vector sizeVect) { _size = sizeVect; }	//Set size vector
+	inline void SetDir(bool val) { _dir = val; }				//Set sprite direction
+	char SetAnimation(int order);								//Set animation
 
 	void SetTexture(Texture* texture) { _texture = texture; }		//Set new texture
 	int CreateAnimation(int height, int width, int x, int y, int count, float speed);	//Create an animation, and return its position

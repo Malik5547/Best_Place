@@ -26,10 +26,10 @@ enum ObjType {
 
 class Object {
 	ObjType _type;					//Object type
-	Sprite* _sprite = nullptr;	//Object texture(sprite). Null by default
 	Mesh* _mesh;				//Object mesh. Object must have mesh
 
 protected:
+	Sprite* _sprite = nullptr;	//Object texture(sprite). Null by default
 	Vector	_position;				//Object position
 	float _width, _height;			//Object width and height
 	char _collRegister;			//Is object registered in colision system

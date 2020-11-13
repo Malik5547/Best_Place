@@ -231,6 +231,10 @@
     <ClInclude Include="src\render\shaders\vertexShader.h" />
     <ClInclude Include="src\window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\render\shaders\pShader.txt" />
+    <Text Include="src\render\shaders\vShader.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

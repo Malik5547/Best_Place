@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../math/vector.h"
 #include <d3dx9.h>
 
 #define SetConsoleTitle SetConsoleTitleA

@@ -136,6 +136,13 @@ namespace World {
 			UpdatePos(timeDelta);
 		else
 			UpdatePosAlt(timeDelta);
+		//Reverse texture
+		if (_move.x != 0.0f) {
+			if (_move.x > 0.0f)
+				_sprite->SetDir(DIR_RIGHT);
+			else
+				_sprite->SetDir(DIR_LEFT);
+		}
 
 		//Handle collision
 		if (_collRegister == MOBILE_COLL_REG)

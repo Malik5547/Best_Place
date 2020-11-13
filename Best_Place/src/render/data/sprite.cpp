@@ -108,12 +108,20 @@ void Sprite::DrawImpl(IDirect3DDevice9* device, VertexShader* vShader, PixelShad
 
 	//Set stream source
 	device->SetStreamSource(0, _vertexBuffer, 0, sizeof(Vertex));
-	//Set texture 
-	pShader->SetTexture(device, _texture->GetTexture());
 	//Set stream indices
 	device->SetIndices(_indexBuffer);
 	//Set FVF
 	device->SetFVF(Vertex::FVF);
+	//Set texture 
+	pShader->SetTexture(device, _texture->GetTexture());
+
+	//Set reverse
+	if (_dir == DIR_LEFT) {
+		if (pShader->SetInverseDraw(device, true)) {
+			Vector leftRightU = { _leftBottom.GetUV().x, _rightUpper.GetUV().x };
+			pShader->SetLeftRightU(device, leftRightU);
+		}
+	}
 
 	//Set scale and center
 	if (_size != Vector{1.0f, 1.0f}) {
@@ -129,6 +137,10 @@ void Sprite::DrawImpl(IDirect3DDevice9* device, VertexShader* vShader, PixelShad
 		vShader->SetScaleVect(device, 1.0f, 1.0f);
 		vShader->SetCenterVect(device, 0.0f, 0.0f);
 	}
+
+	//Resel reverse
+	if (_dir == DIR_LEFT)
+		pShader->SetInverseDraw(device, false);
 
 	//Return stream index
 	device->SetIndices(0);

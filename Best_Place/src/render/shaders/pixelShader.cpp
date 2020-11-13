@@ -29,6 +29,8 @@ bool PixelShader::Create(IDirect3DDevice9* device) {
 	//Get handles
 	//
 	_textureHndl = _constTable->GetConstantByName(0, "Texture");
+	_reversed = _constTable->GetConstantByName(0, "Reverse");
+	_leftRightU = _constTable->GetConstantByName(0, "LeftRightU");
 	//Set defaults
 	_constTable->SetDefaults(device);
 
@@ -36,6 +38,29 @@ bool PixelShader::Create(IDirect3DDevice9* device) {
 	//Get texture descriptions
 	//
 	_constTable->GetConstantDesc(_textureHndl, &_textureDesc, &_textureCount);
+
+	return true;
+}
+
+bool PixelShader::SetInverseDraw(IDirect3DDevice9* device, bool val) {
+	HRESULT hr;
+
+	hr = _constTable->SetBool(device, _reversed, val);
+
+	if (FAILED(hr))
+		return false;
+
+	return true;
+}
+
+bool PixelShader::SetLeftRightU(IDirect3DDevice9* device, Vector leftRightU) {
+	HRESULT hr;
+	float UV[2] = { leftRightU.x , leftRightU.y };
+
+	hr = _constTable->SetFloatArray(device, _leftRightU, UV, 2);
+
+	if (FAILED(hr))
+		return false;
 
 	return true;
 }
